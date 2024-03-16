@@ -39,5 +39,12 @@ dependencies {
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
+    // Importa el country code
     implementation("com.hbb20:ccp:2.5.0")
+
+    // Importa la BoM para la plataforma Firebase
+    implementation(platform("com.google.firebase:firebase-bom:32.7.4"))
+    // Agrega la dependencia para la biblioteca de autenticación de Firebase
+    // Cuando usas la BoM, no especificas versiones en las dependencias de la biblioteca de Firebase
+    implementation("com.google.firebase:firebase-auth")
 }
