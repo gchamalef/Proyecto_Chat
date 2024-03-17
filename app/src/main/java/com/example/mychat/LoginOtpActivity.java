@@ -1,5 +1,6 @@
 package com.example.mychat;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -12,13 +13,18 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.mychat.utils.AndroidUtil;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseException;
+import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthOptions;
 import com.google.firebase.auth.PhoneAuthProvider;
 
 import java.util.Objects;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.concurrent.TimeUnit;
 
 public class LoginOtpActivity extends AppCompatActivity {
@@ -48,9 +54,21 @@ public class LoginOtpActivity extends AppCompatActivity {
 
         sendOtp(phoneNumber,false);
 
+        nextBtn.setOnClickListener(v -> {
+            String enteredOtp = otpInput.getText().toString();
+            PhoneAuthCredential credential = PhoneAuthProvider.getCredential(verificationCode,enteredOtp);
+            signIn(credential);
+            setInProgress(true);
+        });
+
+        resendOtpTextView.setOnClickListener((v)->{
+            sendOtp(phoneNumber,true);
+        });
+
     }
 
     void sendOtp(String phoneNumber,boolean isResend){
+        startResendTimer();
         setInProgress(true);
         PhoneAuthOptions.Builder builder =
                 PhoneAuthOptions.newBuilder(mAuth)
@@ -98,7 +116,41 @@ public class LoginOtpActivity extends AppCompatActivity {
     }
 
     void signIn(PhoneAuthCredential phoneAuthCredential){
-        //login and go to next activity
+        //pasa el login y va a la siguiente actividad
+        setInProgress(true);
+        mAuth.signInWithCredential(phoneAuthCredential).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+            @Override
+            public void onComplete(@NonNull Task<AuthResult> task) {
+                setInProgress(false);
+                if(task.isSuccessful()){
+                    Intent intent = new Intent(LoginOtpActivity.this,LoginUsernameActivity.class);
+                    intent.putExtra("phone",phoneNumber);
+                    startActivity(intent);
+                }else{
+                    AndroidUtil.showToast(getApplicationContext(), "Codigo de verificacion fallido");
+                }
+            }
+        });
+
+    }
+
+    void startResendTimer(){
+        resendOtpTextView.setEnabled(false);
+        Timer timer = new Timer();
+        timer.scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+                timeoutSeconds--;
+                resendOtpTextView.setText("Reenviando codigo de verificacion en "+timeoutSeconds +" segundos");
+                if(timeoutSeconds<=0){
+                    timeoutSeconds = 60L;
+                    timer.cancel();
+                    runOnUiThread(() -> {
+                        resendOtpTextView.setEnabled(true);
+                    });
+                }
+            }
+        },0,1000);
     }
 
 }
