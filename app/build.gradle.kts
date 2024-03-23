@@ -47,4 +47,6 @@ dependencies {
     // Agrega la dependencia para la biblioteca de autenticación de Firebase
     // Cuando usas la BoM, no especificas versiones en las dependencias de la biblioteca de Firebase
     implementation("com.google.firebase:firebase-auth")
+    // FirebaseUI for Cloud Firestore
+    implementation ("com.firebaseui:firebase-ui-firestore:8.0.2")
 }
