@@ -9,6 +9,7 @@ public class ChatroomModel {
     List<String> userIds;
     Timestamp lastMessageTimestamp;
     String lastMessageSenderId;
+    String lastMessage;
 
     public ChatroomModel() {}
 
