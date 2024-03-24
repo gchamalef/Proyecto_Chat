@@ -71,7 +71,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Enter OTP sent to your phone number"
+        android:text="Ingresar codigo de verificacion"
         android:layout_gravity="center_vertical"
         android:letterSpacing="0.08"
         android:textStyle="bold"
@@ -90,7 +90,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="10dp"
-            android:hint="OTP"
+            android:hint="Codigo"
             android:inputType="number"
             android:maxLength="6"
             android:layout_margin="10dp"
@@ -111,7 +111,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/btn_rounded_corner"
-            android:text="NEXT"
+            android:text="Siguiente"
             android:id="@+id/login_next_btn"/>
         <ProgressBar
             android:layout_width="32dp"
@@ -127,7 +127,7 @@
         android:layout_height="wrap_content"
         android:layout_weight="10"
         android:gravity="center"
-        android:text="Resend OTP in 30 sec"
+        android:text="Reenviar codigo en 30 sec"
         android:id="@+id/resend_otp_textview"/>
 
 </LinearLayout>

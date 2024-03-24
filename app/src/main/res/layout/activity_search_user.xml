@@ -17,7 +17,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Search User"
+            android:text="Buscar Usuario"
             android:textSize="22sp"
             android:textStyle="bold"
             android:textColor="@color/white"
@@ -50,7 +50,7 @@
             android:layout_height="wrap_content"
             android:background="@drawable/edit_text_rounded_corner"
             android:layout_margin="10dp"
-            android:hint="Username"
+            android:hint="Nombre usuario"
             android:padding="10dp"
             android:elevation="4dp"
             android:layout_toLeftOf="@+id/search_user_btn"

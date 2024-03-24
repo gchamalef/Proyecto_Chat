@@ -4,11 +4,11 @@
         android:icon="@drawable/chat_icon"
         android:id="@+id/menu_chat"
         />
-    <item android:title="Profile"
+    <item android:title="Perfil"
         android:icon="@drawable/person_icon"
         android:id="@+id/menu_profile"
         />
-    <item android:title="Community"
+    <item android:title="Comunidad"
         android:icon="@drawable/community_icon"
         android:id="@+id/menu_community"
         />
