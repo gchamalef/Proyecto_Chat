@@ -35,20 +35,25 @@ dependencies {
     implementation("com.google.android.material:material:1.11.0")
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
     implementation("androidx.activity:activity:1.8.2")
-    implementation("com.google.firebase:firebase-firestore:24.10.3")
-    implementation("com.google.firebase:firebase-storage:20.3.0")
+
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
 
     //Firebase
         // Importa la BoM para la plataforma Firebase
-    implementation(platform("com.google.firebase:firebase-bom:32.7.4"))
+    implementation(platform("com.google.firebase:firebase-bom:32.8.0"))
         // Agrega la dependencia para la biblioteca de autenticación de Firebase
         // Cuando usas la BoM, no especificas versiones en las dependencias de la biblioteca de Firebase
     implementation("com.google.firebase:firebase-auth")
         // FirebaseUI for Cloud Firestore
     implementation ("com.firebaseui:firebase-ui-firestore:8.0.2")
+        // Importacion de la dependencia para Firestore
+    implementation("com.google.firebase:firebase-firestore:24.11.0")
+        // Importacion de la dependencia para Firebase Storage
+    implementation("com.google.firebase:firebase-storage:20.3.0")
+        // Importando la dependencia para Firebase Cloud Messaging
+    implementation("com.google.firebase:firebase-messaging-ktx:23.4.1")
 
     //Agregados
         // Importa country code
