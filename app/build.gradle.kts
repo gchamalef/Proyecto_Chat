@@ -46,7 +46,7 @@ dependencies {
         // Agrega la dependencia para la biblioteca de autenticación de Firebase
         // Cuando usas la BoM, no especificas versiones en las dependencias de la biblioteca de Firebase
     implementation("com.google.firebase:firebase-auth")
-        // FirebaseUI for Cloud Firestore
+        // FirebaseUI para Cloud Firestore
     implementation ("com.firebaseui:firebase-ui-firestore:8.0.2")
         // Importacion de la dependencia para Firestore
     implementation("com.google.firebase:firebase-firestore:24.11.0")
@@ -62,4 +62,6 @@ dependencies {
     implementation("com.github.dhaval2404:imagepicker:2.1")
         // Importa glide
     implementation("com.github.bumptech.glide:glide:4.16.0")
+        // Importando la dependencia para OkHttp
+    implementation("com.squareup.okhttp3:okhttp:4.12.0")
 }
