@@ -43,7 +43,10 @@ dependencies {
     //Firebase
         // Importa la BoM para la plataforma Firebase
     implementation(platform("com.google.firebase:firebase-bom:32.8.0"))
-        // Agrega la dependencia para la biblioteca de autenticación de Firebase
+        // Importa la dependencia para Firebase Realtime Database
+    implementation("com.google.firebase:firebase-database:20.3.1")
+
+    // Agrega la dependencia para la biblioteca de autenticación de Firebase
         // Cuando usas la BoM, no especificas versiones en las dependencias de la biblioteca de Firebase
     implementation("com.google.firebase:firebase-auth")
         // FirebaseUI para Cloud Firestore
@@ -64,4 +67,7 @@ dependencies {
     implementation("com.github.bumptech.glide:glide:4.16.0")
         // Importando la dependencia para OkHttp
     implementation("com.squareup.okhttp3:okhttp:4.12.0")
+        // Imagen circular
+    implementation("de.hdodenhof:circleimageview:3.1.0")
+
 }
