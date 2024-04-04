@@ -3,6 +3,7 @@ package com.example.mychat;
 public class Mensaje {
 
     private String Mensaje;
+    private String urlFoto;
     private  String Nombre;
     private String fotoPerfil;
     private String type_mensaje;
@@ -17,6 +18,15 @@ public class Mensaje {
 
     public Mensaje(String mensaje, String nombre, String fotoPerfil, String type_mensaje, String hora) {
         Mensaje = mensaje;
+        Nombre = nombre;
+        this.fotoPerfil = fotoPerfil;
+        this.type_mensaje = type_mensaje;
+        this.hora = hora;
+    }
+
+    public Mensaje(String mensaje, String urlFoto, String nombre, String fotoPerfil, String type_mensaje, String hora) {
+        Mensaje = mensaje;
+        this.urlFoto = urlFoto;
         Nombre = nombre;
         this.fotoPerfil = fotoPerfil;
         this.type_mensaje = type_mensaje;
@@ -41,6 +51,14 @@ public class Mensaje {
 
     public void setFotoPerfil(String fotoPerfil) {
         this.fotoPerfil = fotoPerfil;
+    }
+
+    public String getUrlFoto() {
+        return urlFoto;
+    }
+
+    public void setUrlFoto(String urlFoto) {
+        this.urlFoto = urlFoto;
     }
 
     public String getType_mensaje() {

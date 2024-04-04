@@ -1,5 +1,9 @@
 package com.example.mychat;
 
+import static android.app.Activity.RESULT_OK;
+
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -15,9 +19,13 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -28,10 +36,14 @@ public class CommunityFragment extends Fragment {
     private RecyclerView rvMensajes;
     private EditText txtMensaje;
     private ImageButton btnEnviar;
+    private ImageButton btnEnviarFoto;
 
     private AdapterMensajes adapter;
     private FirebaseFirestore database;
     private CollectionReference messagesCollection;
+    private FirebaseStorage storage;
+    private StorageReference storageReference;
+    private static final int PHOTO_SEND = 1;
 
     public CommunityFragment() {
 
@@ -49,9 +61,11 @@ public class CommunityFragment extends Fragment {
         rvMensajes = view.findViewById(R.id.rvMensajes);
         txtMensaje = view.findViewById(R.id.txtMensaje);
         btnEnviar = view.findViewById(R.id.btnEnviar);
+        btnEnviarFoto = view.findViewById(R.id.btnEnviarFoto);
 
         database = FirebaseFirestore.getInstance();
         messagesCollection = database.collection("public_chat");
+        storage = FirebaseStorage.getInstance();
 
         adapter = new AdapterMensajes(getContext());
         LinearLayoutManager l = new LinearLayoutManager(getContext());
@@ -77,6 +91,16 @@ public class CommunityFragment extends Fragment {
             }
         });
 
+        btnEnviarFoto.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(Intent.ACTION_GET_CONTENT);
+                i.setType("image/jpeg");
+                i.putExtra(Intent.EXTRA_LOCAL_ONLY,true);
+                startActivityForResult(Intent.createChooser(i,"Selecciona una fotografía"),PHOTO_SEND);
+            }
+        });
+
         adapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
             @Override
             public void onItemRangeInserted(int positionStart, int itemCount) {
@@ -98,10 +122,34 @@ public class CommunityFragment extends Fragment {
             }
             adapter.notifyDataSetChanged(); // Notificar al adaptador sobre el cambio
         });
+
         return view;
     }
 
     private void setScrollbar() {
         rvMensajes.scrollToPosition(adapter.getItemCount() - 1);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == PHOTO_SEND && resultCode == RESULT_OK){
+            Uri u = data.getData();
+            storageReference = storage.getReference("imagenes_chat_publico"); // Imagenes del chat público
+            final StorageReference fotoReferencia = storageReference.child(u.getLastPathSegment());
+            fotoReferencia.putFile(u).addOnSuccessListener(taskSnapshot -> {
+                fotoReferencia.getDownloadUrl().addOnSuccessListener(uri -> {
+                    String url = uri.toString();
+                    Mensaje m = new Mensaje("Kevin te ha enviado una foto",u.toString(), nombre.getText().toString(),url, "2", "00:00");
+                    messagesCollection.add(m)
+                            .addOnSuccessListener(documentReference -> {
+                                // Mensaje enviado exitosamente
+                            })
+                            .addOnFailureListener(e -> {
+                                // Error al enviar el mensaje
+                            });
+                });
+            });
+        }
     }
 }
