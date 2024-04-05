@@ -78,7 +78,7 @@ public class CommunityFragment extends Fragment {
                 String nombreUsuario = nombre.getText().toString();
                 String timestamp = String.valueOf(System.currentTimeMillis());
 
-                Mensaje nuevoMensaje = new Mensaje(mensaje, nombreUsuario, "", "1", "00:00");
+                Mensaje nuevoMensaje = new Mensaje(mensaje, nombreUsuario, "", "1", "");
 
                 messagesCollection.add(nuevoMensaje)
                         .addOnSuccessListener(documentReference -> {
@@ -168,7 +168,7 @@ public class CommunityFragment extends Fragment {
                     fotoReferencia.getDownloadUrl().addOnSuccessListener(uri -> {
                         String url = uri.toString();
                         String timestamp = String.valueOf(System.currentTimeMillis());
-                        Mensaje m = new Mensaje("Usuario te ha enviado una foto", u.toString(), nombre.getText().toString(), url, "2", "00:00");
+                        Mensaje m = new Mensaje("Usuario te ha enviado una foto", u.toString(), nombre.getText().toString(), url, "2", "");
                         messagesCollection.add(m)
                                 .addOnSuccessListener(documentReference -> {
                                     // Mensaje enviado exitosamente
