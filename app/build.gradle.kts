@@ -69,5 +69,8 @@ dependencies {
     implementation("com.squareup.okhttp3:okhttp:4.12.0")
         // Imagen circular
     implementation("de.hdodenhof:circleimageview:3.1.0")
+    implementation("org.ocpsoft.prettytime:prettytime:4.0.1.Final")
+
+
 
 }

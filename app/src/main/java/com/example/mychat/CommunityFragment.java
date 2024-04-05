@@ -2,11 +2,11 @@ package com.example.mychat;
 
 import static android.app.Activity.RESULT_OK;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -19,13 +19,12 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
-import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
-import com.google.firebase.storage.UploadTask;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -77,6 +76,8 @@ public class CommunityFragment extends Fragment {
             public void onClick(View v) {
                 String mensaje = txtMensaje.getText().toString();
                 String nombreUsuario = nombre.getText().toString();
+                String timestamp = String.valueOf(System.currentTimeMillis());
+
                 Mensaje nuevoMensaje = new Mensaje(mensaje, nombreUsuario, "", "1", "00:00");
 
                 messagesCollection.add(nuevoMensaje)
@@ -116,7 +117,9 @@ public class CommunityFragment extends Fragment {
             }
             for (DocumentChange dc : queryDocumentSnapshots.getDocumentChanges()) {
                 if (dc.getType() == DocumentChange.Type.ADDED) {
+                    //MensajeRecibir nuevoMensaje = (MensajeRecibir) dc.getDocument().toObject(Mensaje.class);
                     Mensaje nuevoMensaje = dc.getDocument().toObject(Mensaje.class);
+
                     adapter.addMensaje(nuevoMensaje); // Añadir el mensaje al adaptador
                 }
             }
@@ -131,7 +134,7 @@ public class CommunityFragment extends Fragment {
     }
 
     @Override
-    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+    /*public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == PHOTO_SEND && resultCode == RESULT_OK){
             Uri u = data.getData();
@@ -140,7 +143,8 @@ public class CommunityFragment extends Fragment {
             fotoReferencia.putFile(u).addOnSuccessListener(taskSnapshot -> {
                 fotoReferencia.getDownloadUrl().addOnSuccessListener(uri -> {
                     String url = uri.toString();
-                    Mensaje m = new Mensaje("Kevin te ha enviado una foto",u.toString(), nombre.getText().toString(),url, "2", "00:00");
+                    String timestamp = String.valueOf(System.currentTimeMillis());
+                    Mensaje m = new Mensaje("Usuario te ha enviado una foto",u.toString(), nombre.getText().toString(),url, "2");
                     messagesCollection.add(m)
                             .addOnSuccessListener(documentReference -> {
                                 // Mensaje enviado exitosamente
@@ -151,5 +155,33 @@ public class CommunityFragment extends Fragment {
                 });
             });
         }
+    }*/
+
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == PHOTO_SEND && resultCode == Activity.RESULT_OK && data != null) {
+            Uri u = data.getData();
+            if (u != null) {
+                storageReference = storage.getReference("imagenes_chat_publico");
+                final StorageReference fotoReferencia = storageReference.child(u.getLastPathSegment());
+                fotoReferencia.putFile(u).addOnSuccessListener(taskSnapshot -> {
+                    fotoReferencia.getDownloadUrl().addOnSuccessListener(uri -> {
+                        String url = uri.toString();
+                        String timestamp = String.valueOf(System.currentTimeMillis());
+                        Mensaje m = new Mensaje("Usuario te ha enviado una foto", u.toString(), nombre.getText().toString(), url, "2", "00:00");
+                        messagesCollection.add(m)
+                                .addOnSuccessListener(documentReference -> {
+                                    // Mensaje enviado exitosamente
+                                })
+                                .addOnFailureListener(e -> {
+                                    e.printStackTrace();
+                                });
+                    });
+                });
+            } else {
+                // Handle null Uri
+            }
+        }
     }
+
 }

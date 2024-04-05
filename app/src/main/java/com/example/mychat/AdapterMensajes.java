@@ -4,15 +4,21 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import com.google.firebase.Timestamp;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.google.firebase.firestore.MemoryLruGcSettings;
 
+import org.ocpsoft.prettytime.PrettyTime;
+
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
+import java.util.Map;
 
 public class AdapterMensajes  extends RecyclerView.Adapter<HolderMensaje> {
     private List<Mensaje> listMensaje = new ArrayList<>();
@@ -37,9 +43,11 @@ public class AdapterMensajes  extends RecyclerView.Adapter<HolderMensaje> {
 
     @Override
     public void onBindViewHolder(@NonNull HolderMensaje holder, int position) {
+        Mensaje mensaje = listMensaje.get(position);
+
         holder.getNombre().setText(listMensaje.get(position).getNombre());
+
         holder.getMensaje().setText(listMensaje.get(position).getMensaje());
-        holder.getHora().setText(listMensaje.get(position).getHora());
         if(listMensaje.get(position).getType_mensaje().equals("2")){
             holder.getFotoMensaje().setVisibility(View.VISIBLE);
             holder.getMensaje().setVisibility(View.VISIBLE);
@@ -48,10 +56,14 @@ public class AdapterMensajes  extends RecyclerView.Adapter<HolderMensaje> {
             holder.getFotoMensaje().setVisibility(View.GONE);
             holder.getMensaje().setVisibility(View.VISIBLE);
         }
+
     }
+
 
     @Override
     public int getItemCount() {
         return listMensaje.size();
     }
+
+
 }

@@ -1,48 +1,51 @@
 package com.example.mychat;
 
+import com.google.firebase.Timestamp;
+
 public class Mensaje {
 
-    private String Mensaje;
+    private String mensaje;
     private String urlFoto;
-    private  String Nombre;
+    private String nombre;
     private String fotoPerfil;
     private String type_mensaje;
     private String hora;
 
+    // Constructor sin argumentos requerido por Firestore
     public Mensaje() {
     }
 
-    public String getMensaje() {
-        return Mensaje;
-    }
-
     public Mensaje(String mensaje, String nombre, String fotoPerfil, String type_mensaje, String hora) {
-        Mensaje = mensaje;
-        Nombre = nombre;
+        this.mensaje = mensaje;
+        this.nombre = nombre;
         this.fotoPerfil = fotoPerfil;
         this.type_mensaje = type_mensaje;
         this.hora = hora;
     }
 
     public Mensaje(String mensaje, String urlFoto, String nombre, String fotoPerfil, String type_mensaje, String hora) {
-        Mensaje = mensaje;
+        this.mensaje = mensaje;
         this.urlFoto = urlFoto;
-        Nombre = nombre;
+        this.nombre = nombre;
         this.fotoPerfil = fotoPerfil;
         this.type_mensaje = type_mensaje;
         this.hora = hora;
     }
 
+    public String getMensaje() {
+        return mensaje;
+    }
+
     public void setMensaje(String mensaje) {
-        Mensaje = mensaje;
+        this.mensaje = mensaje;
     }
 
     public String getNombre() {
-        return Nombre;
+        return nombre;
     }
 
     public void setNombre(String nombre) {
-        Nombre = nombre;
+        this.nombre = nombre;
     }
 
     public String getFotoPerfil() {
